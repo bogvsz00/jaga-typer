@@ -14,7 +14,7 @@
 </head>
 
 <body>
-
+    <div class="ui active inline loader"></div>
 </body>
 
 </html>
