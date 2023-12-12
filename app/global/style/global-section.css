@@ -1,0 +1,7 @@
+@import "variables.css";
+
+footer {
+  width: 100vw;
+  float: none;
+  background-color: var(--secondary);
+}

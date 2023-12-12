@@ -1,0 +1,14 @@
+@import "variables.css";
+
+* {
+  font-family: var(--main-font);
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  color: white;
+}
+
+h1 {
+  background-color: var(--bgcolor);
+  font-size: 20px;
+}
