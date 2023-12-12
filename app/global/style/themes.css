@@ -1,0 +1,41 @@
+@import "variables.css";
+
+.brand-bgcolor {
+  background-color: var(--bgcolor);
+}
+
+.brand-primary {
+  color: var(--primary);
+}
+
+.brand-secondary {
+  color: var(--secondary);
+}
+
+.brand-btn-hover {
+  background-color: var(--btn-hover);
+}
+
+.brand-success {
+  color: var(--success);
+}
+
+.brand-error {
+  color: var(--error);
+}
+
+.brand-warning {
+  color: var(--warning);
+}
+
+.brand-light-gray {
+  background-color: var(--light-gray);
+}
+
+.brand-white {
+  color: var(--white);
+}
+
+.brand-smog {
+  color: var(--smog);
+}

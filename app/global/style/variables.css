@@ -5,7 +5,11 @@
   --bgcolor: #111010;
   --primary: #005eff;
   --secondary: #3198ff;
-  --btn-hover: #005eff50;   
+  --btn-hover: #005eff50;
+  --success: #34B234;
+  --error: #C91D1D;
+  --warning:#E8B130;
+  --light-gray: #F2F2F3;
   --white: #fff;
   --smog: rgba(255, 255, 255, 0.2);
 }

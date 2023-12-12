@@ -9,6 +9,7 @@
         padding: 10px;
         background-color: var(--primary);
         text-align: center;
+        font-size: 0.5rem;
     }
 </style>
 </body>
