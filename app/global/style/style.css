@@ -175,3 +175,14 @@ a {
 .adnt-container {
   margin-bottom: 5px;
 }
+
+select {
+  width: 200px;
+  padding: 2px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  appearance: none; /* Resetuj domyślny wygląd elementu w niektórych przeglądarkach */
+}

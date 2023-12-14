@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS matches (
     is_jagiellonia BOOLEAN NOT NULL
 );
 
+-- Tabela zawodników Jagiellonii
+CREATE TABLE IF NOT EXISTS jagiellonia_players (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    surname VARCHAR(64) NOT NULL
+);
+
 -- Tabela obstawień użytkowników
 CREATE TABLE IF NOT EXISTS user_picks (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,14 +45,6 @@ CREATE TABLE IF NOT EXISTS user_scores (
     score_ogolna INT DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
--- Tabela zawodników Jagiellonii
-CREATE TABLE IF NOT EXISTS jagiellonia_players (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(64) NOT NULL,
-    surname VARCHAR(64) NOT NULL
-);
-
 
 -- WIDOKI
 CREATE VIEW IF NOT EXISTS extra_table AS
