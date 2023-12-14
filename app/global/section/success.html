@@ -5,20 +5,29 @@
     Rekordy zostały pomyślnie wprowadzone do bazy danych! Akcja została
     zakończona sukcesem.
   </p>
+  <a href="app\..\index.php">
+    <button class="go-back-button">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>&nbsp;&nbsp;Powrót na stronę główną
+    </button>
+  </a>
 </div>
 
 <style>
+  @import "style/global-section.css";
+  @import "style/themes.css";
+  @import "style/style.css";
+
   body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Zmiana z 100% na 100vh dla pełnej wysokości okna przeglądarki */
+    height: 100vh;
     margin: 0;
   }
 
   .success {
     width: 400px;
-    height: 200px; /* Dowolna wartość wysokości, aby zachować proporcje */
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,8 +35,8 @@
     background-color: rgba(115, 255, 0, 0.432);
     border-radius: 5px;
     padding: 20px;
-    margin: auto; /* Wyśrodkowanie poziome */
-    text-align: center; /* Wyśrodkowanie tekstu */
+    margin: auto;
+    text-align: center;
   }
 
   #h3-success {
@@ -40,4 +49,19 @@
     font-weight: 500;
     text-align: center;
   }
+
+  .go-back-button {
+  margin-right: 15px;
+  width: 250px;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 600;
+  border: 0;
+  min-height: 30px;
+  font-size: 65%;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
 </style>

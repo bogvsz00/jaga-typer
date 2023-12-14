@@ -8,6 +8,10 @@
   padding: 0px;
 }
 
+button, .a-button {
+  margin: 5px 5px 5px 5px;
+}
+
 button:hover, input[type="submit"]
 {
 cursor: pointer;
@@ -89,7 +93,6 @@ hr {
 }
 
 .reset-button {
-  margin-left: 15px;
   width: 120px;
   background-color: var(--error);
   color: white;
@@ -118,7 +121,6 @@ hr {
 }
 
 .pick-round-button {
-  margin-right: 15px;
   width: 175px;
   background-color: var(--primary);
   color: white;
@@ -131,7 +133,6 @@ hr {
 }
 
 .leaderboard-button {
-  margin-right: 15px;
   width: 175px;
   background-color: #ff9100;
   color: white;
@@ -178,8 +179,8 @@ a {
 
 select {
   width: 200px;
-  padding: 2px;
-  font-size: 16px;
+  padding: 1px;
+  font-size: 13px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;

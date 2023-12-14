@@ -1,5 +1,4 @@
 <?php
-$pageTitle = 'Typowanie zakończone';
 include __DIR__ . '/global/section/header.php';
 ?>
 
@@ -8,7 +7,6 @@ include __DIR__ . '/global/section/header.php';
 
 require __DIR__ . '/global/global-db/db_config.php';
 
-// Sprawdzanie, czy formularz został przesłany
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pobranie danych z formularza
     $selectedRound = $_POST['selected_round'];
@@ -18,33 +16,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $results2 = $_POST['result2'];
     $jagielloniaPlayers = $_POST['jagiellonia_players'];
 
-    // Sprawdzenie, czy użytkownik już istnieje w bazie
-    $userCheckSql = "SELECT id FROM users WHERE username = '$username'";
-    $userCheckResult = $conn->query($userCheckSql);
+    // Sprawdzenie, czy użytkownik już istnieje
+    $userId = getUserId($conn, $username);
 
-    if ($userCheckResult->num_rows > 0) {
-        // Użytkownik już istnieje - pobierz jego ID
-        $userId = $userCheckResult->fetch_assoc()['id'];
-    } else {
-        // Użytkownik nie istnieje - dodaj nowego użytkownika
-        $userInsertSql = "INSERT INTO users (username) VALUES ('$username')";
-        $conn->query($userInsertSql);
-
-        // Pobierz ID nowo dodanego użytkownika
-        $userIdSql = "SELECT id FROM users WHERE username = '$username'";
-        $userIdResult = $conn->query($userIdSql);
-        $userId = $userIdResult->fetch_assoc()['id'];
+    // Jeśli użytkownik nie istnieje, dodaj nowego
+    if (!$userId) {
+        $userId = addUser($conn, $username);
     }
 
     // Iteracja przez mecze i dodawanie wyborów do bazy danych
-    foreach ($matchIds as $key => $matchId) {
-        $result1 = $results1[$key];
-        $result2 = $results2[$key];
-        $jagielloniaPlayer = $jagielloniaPlayers[$key] ?? null;
+    foreach ($matchIds as $matchId) {
+        $result1 = $results1[$matchId] ?? null;
+        $result2 = $results2[$matchId] ?? null;
+        $jagielloniaPlayer = $jagielloniaPlayers[$matchId] ?? null;
 
-        $insertPicksSql = "INSERT INTO user_picks (user_id, match_id, pick_result1, pick_result2, jagiellonia_player_pick_id)
-                           VALUES ($userId, $matchId, $result1, $result2, $jagielloniaPlayer)";
-        $conn->query($insertPicksSql);
+        // Sprawdź, czy wszystkie wymagane dane są dostępne
+        if ($result1 !== null && $result2 !== null) {
+            addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer);
+        }
     }
 
     // Przekierowanie po dodaniu obstawień
@@ -55,4 +44,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $conn->close();
+
+function getUserId($conn, $username) {
+    $userCheckSql = $conn->prepare("SELECT id FROM users WHERE username = ?");
+    $userCheckSql->bind_param("s", $username);
+    $userCheckSql->execute();
+    $userCheckResult = $userCheckSql->get_result();
+
+    return $userCheckResult->num_rows > 0 ? $userCheckResult->fetch_assoc()['id'] : null;
+}
+
+function addUser($conn, $username) {
+    $userInsertSql = $conn->prepare("INSERT INTO users (username) VALUES (?)");
+    $userInsertSql->bind_param("s", $username);
+    $userInsertSql->execute();
+
+    return $conn->insert_id;
+}
+
+function addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer) {
+    $insertPicksSql = $conn->prepare("INSERT INTO user_picks (user_id, match_id, pick_result1, pick_result2, jagiellonia_player_pick_id)
+                   VALUES (?, ?, ?, ?, ?)");
+    $insertPicksSql->bind_param("iiiii", $userId, $matchId, $result1, $result2, $jagielloniaPlayer);
+    $insertPicksSql->execute();
+}
 ?>
