@@ -3,7 +3,7 @@
 </footer>
 
 <style>
-    @import 'global/style/variables.css';
+                                    
 
     footer {
         padding: 10px;

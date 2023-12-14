@@ -39,3 +39,11 @@
 .brand-smog {
   color: var(--smog);
 }
+
+.brand-gray {
+  color: var(--gray);
+}
+
+.white-text {
+  color: white;
+}
