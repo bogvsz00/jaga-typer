@@ -1,0 +1,37 @@
+<div class="tooltip">
+  <i class="far fa-question-circle fa-sm"></i>
+  <span class="tooltiptext">Podaj tutaj swoją nazwę z forum</span>
+</div>
+
+<style>
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: none; /* If you want dots under the hoverable text */
+    width: 140px;
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: rgba(0, 0, 0, 0.815);
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>

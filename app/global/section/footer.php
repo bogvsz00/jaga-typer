@@ -3,8 +3,6 @@
 </footer>
 
 <style>
-                                    
-
     footer {
         padding: 10px;
         background-color: var(--primary);
