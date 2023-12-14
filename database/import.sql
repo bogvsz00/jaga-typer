@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS matches (
     result1 INT,
     result2 INT,
     match_round INT NOT NULL,
-    match_date INT NOT NULL,
-    is_jagiellonia bool NOT NULL,
+    match_date DATE NOT NULL,
+    is_jagiellonia BOOLEAN NOT NULL
 );
 
 -- Tabela obstawień użytkowników
@@ -29,17 +29,53 @@ CREATE TABLE IF NOT EXISTS user_picks (
     FOREIGN KEY (match_id) REFERENCES matches(id)
 );
 
+-- Tabela wyników użytkowników
 CREATE TABLE IF NOT EXISTS user_scores (
     user_id INT PRIMARY KEY,
     score_extrakolejki INT DEFAULT 0,
     score_extra INT DEFAULT 0,
     score_kolejki INT DEFAULT 0,
-    score_ogolna INT DEFAULT 0
+    score_ogolna INT DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- Tabela zawodników Jagiellonii
 CREATE TABLE IF NOT EXISTS jagiellonia_players (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name varchar(64) INT NOT NULL,
-    surname varchar(64) INT NOT NULL,
-)
+    name VARCHAR(64) NOT NULL,
+    surname VARCHAR(64) NOT NULL
+);
+
+
+-- WIDOKI
+CREATE VIEW IF NOT EXISTS extra_table AS
+    SELECT
+        u.id AS user_id,
+        u.username,
+        us.score_extra
+    FROM users u
+    JOIN user_scores us ON u.id = us.user_id;
+
+CREATE VIEW IF NOT EXISTS extrakolejki_table AS
+    SELECT
+        u.id AS user_id,
+        u.username,
+        us.score_extrakolejki
+    FROM users u
+    JOIN user_scores us ON u.id = us.user_id;
+
+CREATE VIEW IF NOT EXISTS kolejki_table AS
+    SELECT
+        u.id AS user_id,
+        u.username,
+        us.score_kolejki
+    FROM users u
+    JOIN user_scores us ON u.id = us.user_id;
+
+CREATE VIEW IF NOT EXISTS ogolna_table AS
+    SELECT
+        u.id AS user_id,
+        u.username,
+        us.score_ogolna
+    FROM users u
+    JOIN user_scores us ON u.id = us.user_id;
