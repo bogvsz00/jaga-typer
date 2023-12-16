@@ -1,7 +1,9 @@
 -- Tabela użytkowników
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL
+    username VARCHAR(255) NOT NULL,
+    is_admin tinyint(1) NOT NULL DEAFULT 0,
+    admin_password varchat(64) NOT NULL
 );
 
 -- Tabela meczów

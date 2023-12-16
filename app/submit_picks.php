@@ -64,7 +64,7 @@ function addUser($conn, $username) {
 
 function addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer) {
     $insertPicksSql = $conn->prepare("INSERT INTO user_picks (user_id, match_id, pick_result1, pick_result2, jagiellonia_player_pick_id)
-                   VALUES (?, ?, ?, ?, ?)");
+        VALUES (?, ?, ?, ?, ?)");
     $insertPicksSql->bind_param("iiiii", $userId, $matchId, $result1, $result2, $jagielloniaPlayer);
     $insertPicksSql->execute();
 }

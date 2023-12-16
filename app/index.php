@@ -1,6 +1,8 @@
 <?php
-$pageTitle = 'Strona główna';
-$currentRound = '1';
+// ! Zmień wartość tutaj:
+$currentRound = '20';
+
+$pageTitle = "$currentRound. kolejka Ekstraklasy";
 include __DIR__ . '/global/section/header.php';
 ?>
 
@@ -18,7 +20,7 @@ include __DIR__ . '/global/section/header.php';
         </div>
         <br>
         <div class="round-header" style='margin-bottom: 15px;'>
-            <span class="brand-secondary"><?php echo $currentRound ?></span>. kolejka Ekstraklasy
+            <span class="brand-secondary"><b><?php echo $currentRound ?></b></span>. kolejka Ekstraklasy
         </div>
             <hr>
 
@@ -26,7 +28,7 @@ include __DIR__ . '/global/section/header.php';
                 <?php
                 require __DIR__ . '/global/global-db/db_config.php';
 
-                $sql = "SELECT * FROM matches WHERE match_date > NOW()";
+                $sql = "SELECT * FROM matches WHERE match_date > NOW() and match_round = $currentRound";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -66,8 +68,10 @@ include __DIR__ . '/global/section/header.php';
                     }
 
                     echo "</table>";
+                    echo "<div class='form-buttons'>";
                     echo "<input class='submit-button a-button' type='submit' value='Zatwierdź obstawienia'>";
                     echo "<input class='reset-button a-button' type='reset' value='Zresetuj'>";
+                    echo "</div>";
                     echo "</form>";
                 } else {
                     include __DIR__ . '/global/section/not-available.html';
