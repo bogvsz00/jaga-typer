@@ -45,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $conn->close();
 
-function getUserId($conn, $username) {
+function getUserId($conn, $username)
+{
     $userCheckSql = $conn->prepare("SELECT id FROM users WHERE username = ?");
     $userCheckSql->bind_param("s", $username);
     $userCheckSql->execute();
@@ -54,7 +55,8 @@ function getUserId($conn, $username) {
     return $userCheckResult->num_rows > 0 ? $userCheckResult->fetch_assoc()['id'] : null;
 }
 
-function addUser($conn, $username) {
+function addUser($conn, $username)
+{
     $userInsertSql = $conn->prepare("INSERT INTO users (username) VALUES (?)");
     $userInsertSql->bind_param("s", $username);
     $userInsertSql->execute();
@@ -62,7 +64,8 @@ function addUser($conn, $username) {
     return $conn->insert_id;
 }
 
-function addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer) {
+function addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer)
+{
     $insertPicksSql = $conn->prepare("INSERT INTO user_picks (user_id, match_id, pick_result1, pick_result2, jagiellonia_player_pick_id)
         VALUES (?, ?, ?, ?, ?)");
     $insertPicksSql->bind_param("iiiii", $userId, $matchId, $result1, $result2, $jagielloniaPlayer);

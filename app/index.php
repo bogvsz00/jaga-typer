@@ -1,6 +1,6 @@
 <?php
 // ! Zmień wartość tutaj:
-$currentRound = '20';
+$currentRound = '5';
 
 $pageTitle = "$currentRound. kolejka Ekstraklasy";
 include __DIR__ . '/global/section/header.php';
@@ -22,67 +22,67 @@ include __DIR__ . '/global/section/header.php';
         <div class="round-header" style='margin-bottom: 15px;'>
             <span class="brand-secondary"><b><?php echo $currentRound ?></b></span>. kolejka Ekstraklasy
         </div>
-            <hr>
+        <hr>
 
-            <div class="bet-panel">
-                <?php
-                require __DIR__ . '/global/global-db/db_config.php';
+        <div class="bet-panel">
+            <?php
+            require __DIR__ . '/global/global-db/db_config.php';
 
-                $sql = "SELECT * FROM matches WHERE match_date > NOW() and match_round = $currentRound";
-                $result = $conn->query($sql);
+            $sql = "SELECT * FROM matches WHERE match_date > NOW() and match_round = $currentRound";
+            $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    session_start();  // Rozpoczynanie sesji
+            if ($result->num_rows > 0) {
+                session_start();
 
-                    echo "<form method='post' action='submit_picks.php'>";
-                    echo "<input type='hidden' name='selected_round' value='$currentRound'>";
-                    echo "<div class='adnt-container'>";
-                    echo "<i class='far fa-question-circle fa-xs adnotation-icon'></i>";
-                    echo "<span class='adnt-brand-text'>Wprowadź tutaj nazwę, która ma za każdym razem wyświetlać się w tabeli wyników</span>";
-                    echo "</div>";
-                    echo "<label class='user-label'><i class='fas fa-user fa-xs' style='margin-right: 7px;'></i>&nbsp;Nazwa gracza: <input type='text' name='username' required></label><br>";
-                    echo "<table>";
-                    echo "<tr><th>Mecz</th><th>Wynik (D)</th><th>Wynik (W)</th><th>Zawodnik Jagiellonii</th></tr>";
+                echo "<form method='post' action='submit_picks.php'>";
+                echo "<input type='hidden' name='selected_round' value='$currentRound'>";
+                echo "<div class='adnt-container'>";
+                echo "<i class='far fa-question-circle fa-xs adnotation-icon'></i>";
+                echo "<span class='adnt-brand-text'>Wprowadź tutaj nazwę, która ma za każdym razem wyświetlać się w tabeli wyników</span>";
+                echo "</div>";
+                echo "<label class='user-label'><i class='fas fa-user fa-xs' style='margin-right: 7px;'></i>&nbsp;Nazwa gracza: <input type='text' name='username' required></label><br>";
+                echo "<table>";
+                echo "<tr><th>Mecz</th><th>Wynik (D)</th><th>Wynik (W)</th><th>Zawodnik Jagiellonii</th></tr>";
 
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>{$row['team1']} - {$row['team2']}</td>";
-                        echo "<td><input type='number' class='score-input' name='result1[{$row['id']}]' max='10' min='0' required></td>";
-                        echo "<td><input type='number' class='score-input' name='result2[{$row['id']}]' max='10' min='0' required></td>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>{$row['team1']} - {$row['team2']}</td>";
+                    echo "<td><input type='number' class='score-input' name='result1[{$row['id']}]' max='10' min='0' required></td>";
+                    echo "<td><input type='number' class='score-input' name='result2[{$row['id']}]' max='10' min='0' required></td>";
 
-                        if (strpos($row['team1'], 'Jagiellonia') !== false || strpos($row['team2'], 'Jagiellonia') !== false) {
-                            echo "<td><select name='jagiellonia_players[{$row['id']}]' required>";
+                    if (strpos($row['team1'], 'Jagiellonia') !== false || strpos($row['team2'], 'Jagiellonia') !== false) {
+                        echo "<td><select name='jagiellonia_players[{$row['id']}]' required>";
 
-                            $playersSql = "SELECT id, name, surname FROM jagiellonia_players";
-                            $playersResult = $conn->query($playersSql);
-                            while ($playerRow = $playersResult->fetch_assoc()) {
-                                echo "<option value='{$playerRow['id']}'>{$playerRow['name']} {$playerRow['surname']}</option>";
-                            }
-                            echo "</select></td>";
-                        } else {
-                            echo "<td></td>";
+                        $playersSql = "SELECT id, name, surname FROM jagiellonia_players";
+                        $playersResult = $conn->query($playersSql);
+                        while ($playerRow = $playersResult->fetch_assoc()) {
+                            echo "<option value='{$playerRow['id']}'>{$playerRow['name']} {$playerRow['surname']}</option>";
                         }
-
-                        echo "<input type='hidden' name='match_id[]' value='{$row['id']}'>";
-                        echo "</tr>";
+                        echo "</select></td>";
+                    } else {
+                        echo "<td></td>";
                     }
 
-                    echo "</table>";
-                    echo "<div class='form-buttons'>";
-                    echo "<input class='submit-button a-button' type='submit' value='Zatwierdź obstawienia'>";
-                    echo "<input class='reset-button a-button' type='reset' value='Zresetuj'>";
-                    echo "</div>";
-                    echo "</form>";
-                } else {
-                    include __DIR__ . '/global/section/not-available.html';
+                    echo "<input type='hidden' name='match_id[]' value='{$row['id']}'>";
+                    echo "</tr>";
                 }
 
-                $conn->close();
-                ?>
-            </div>
-            <div class="leaderboard-panel">
+                echo "</table>";
+                echo "<div class='form-buttons'>";
+                echo "<input class='submit-button a-button' type='submit' value='Zatwierdź obstawienia'>";
+                echo "<input class='reset-button a-button' type='reset' value='Zresetuj'>";
+                echo "</div>";
+                echo "</form>";
+            } else {
+                include __DIR__ . '/global/section/not-available.html';
+            }
 
-            </div>
+            $conn->close();
+            ?>
+        </div>
+        <div class="leaderboard-panel">
+
+        </div>
     </div>
     <link rel="stylesheet" href="style.css">
     <?php
