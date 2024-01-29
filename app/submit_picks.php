@@ -16,30 +16,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $results2 = $_POST['result2'];
     $jagielloniaPlayers = $_POST['jagiellonia_players'];
 
-    // Sprawdzenie, czy użytkownik już istnieje
     $userId = getUserId($conn, $username);
 
-    // Jeśli użytkownik nie istnieje, dodaj nowego
     if (!$userId) {
         $userId = addUser($conn, $username);
     }
-
-    // Iteracja przez mecze i dodawanie wyborów do bazy danych
     foreach ($matchIds as $matchId) {
         $result1 = $results1[$matchId] ?? null;
         $result2 = $results2[$matchId] ?? null;
         $jagielloniaPlayer = $jagielloniaPlayers[$matchId] ?? null;
 
-        // Sprawdź, czy wszystkie wymagane dane są dostępne
         if ($result1 !== null && $result2 !== null) {
             addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlayer);
         }
     }
-
-    // Przekierowanie po dodaniu obstawień
     include __DIR__ . '/global/section/success.html';
 } else {
-    // Jeśli formularz nie został przesłany, przekieruj na stronę główną
     header('Location: /');
 }
 
@@ -72,3 +64,19 @@ function addPicks($conn, $userId, $matchId, $result1, $result2, $jagielloniaPlay
     $insertPicksSql->execute();
 }
 ?>
+<style>
+    body {
+        background-color: #c81d25;
+        color: black;
+    }
+
+    .success {
+        background-color: white;
+    }
+
+    #p-success {
+        color: black;
+    }
+</style>
+
+</html>

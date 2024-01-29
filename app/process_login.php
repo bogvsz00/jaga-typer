@@ -1,9 +1,6 @@
 <?php
 $pageTitle = "Logowanie...";
 include __DIR__ . '/global/section/header.php';
-?>
-
-<?php
 require __DIR__ . '/global/global-db/db_config.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -25,3 +22,8 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+<?php
+include __DIR__ . '/global/section/footer.php';
+?>
+
+</html>

@@ -1,32 +1,40 @@
 <?php
-// ! Zmień wartość tutaj:
-$currentRound = '5';
-
-$pageTitle = "$currentRound. kolejka Ekstraklasy";
+$pageTitle = "Aktualna kolejka Ekstraklasy";
 include __DIR__ . '/global/section/header.php';
+require __DIR__ . '/global/global-db/db_config.php';
+
+// Pobieranie aktualnej rundy z bazy danych
+$sqlSettings = "SELECT current_round FROM admin_settings";
+$resultSettings = $conn->query($sqlSettings);
+
+if ($resultSettings->num_rows > 0) {
+    $rowSettings = $resultSettings->fetch_assoc();
+    $currentRound = $rowSettings['current_round'];
+} else {
+    $currentRound = '1';
+}
+
 ?>
 
-<body>
-    <div class="container">
-        <h1>Jaga Typer</h1>
-        <h2 class="season-header brand-gray">Sezon 24/25</h2>
+<body id="index-body">
+    <div class="container-index">
+        <div class="header-typer">
+            <img src=".\src\image\Herb_Jagielloni.png" alt="a" width="40px" style="vertical-align: -6px;">
+            <h1 style="display: inline-block;">Typer</h1>
+        </div>
+        <h2 class="season-header">Sezon 24/25</h2>
         <div class="nav" style='margin-top: 15px'>
-            <a href="/">
-                <button class="pick-round-button"><i class="fas fa-futbol"></i>&nbsp;&nbsp;Nachodząca kolejka</button>
-            </a>
-            <a href="/">
-                <button class="leaderboard-button"><i class="fas fa-trophy"></i>&nbsp;&nbsp;Tabela wyników</button>
+            <a href="leaderboards.php">
+                <button class="leaderboard-button semi-red-button"><i class="fas fa-trophy"></i>&nbsp;&nbsp;Tabela wyników</button>
             </a>
         </div>
         <br>
         <div class="round-header" style='margin-bottom: 15px;'>
-            <span class="brand-secondary"><b><?php echo $currentRound ?></b></span>. kolejka Ekstraklasy
+            <span class="brand-secondary red-opacity"><b><?php echo $currentRound ?></b></span>. kolejka Ekstraklasy
         </div>
-        <hr>
 
         <div class="bet-panel">
             <?php
-            require __DIR__ . '/global/global-db/db_config.php';
 
             $sql = "SELECT * FROM matches WHERE match_date > NOW() and match_round = $currentRound";
             $result = $conn->query($sql);
@@ -40,9 +48,9 @@ include __DIR__ . '/global/section/header.php';
                 echo "<i class='far fa-question-circle fa-xs adnotation-icon'></i>";
                 echo "<span class='adnt-brand-text'>Wprowadź tutaj nazwę, która ma za każdym razem wyświetlać się w tabeli wyników</span>";
                 echo "</div>";
-                echo "<label class='user-label'><i class='fas fa-user fa-xs' style='margin-right: 7px;'></i>&nbsp;Nazwa gracza: <input type='text' name='username' required></label><br>";
+                echo "<label class='user-label'><i class='fas fa-user fa-xs' style='margin-right: 7px;'></i>&nbsp;Nazwa gracza: <input class='username-input' type='text' name='username' required></label><br>";
                 echo "<table>";
-                echo "<tr><th>Mecz</th><th>Wynik (D)</th><th>Wynik (W)</th><th>Zawodnik Jagiellonii</th></tr>";
+                echo "<tr><th class='match-th'>Mecz</th><th>Wynik (D)</th><th>Wynik (W)</th><th>Zawodnik Jagiellonii</th></tr>";
 
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
@@ -51,7 +59,7 @@ include __DIR__ . '/global/section/header.php';
                     echo "<td><input type='number' class='score-input' name='result2[{$row['id']}]' max='10' min='0' required></td>";
 
                     if (strpos($row['team1'], 'Jagiellonia') !== false || strpos($row['team2'], 'Jagiellonia') !== false) {
-                        echo "<td><select name='jagiellonia_players[{$row['id']}]' required>";
+                        echo "<td><select class='player-pick' name='jagiellonia_players[{$row['id']}]' required>";
 
                         $playersSql = "SELECT id, name, surname FROM jagiellonia_players";
                         $playersResult = $conn->query($playersSql);
@@ -89,5 +97,121 @@ include __DIR__ . '/global/section/header.php';
     include __DIR__ . '/global/section/footer.php';
     ?>
 </body>
+<style>
+    .container-index {
+        margin-top: 40px !important;
+        width: 500px;
+        padding: 15px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #f2f2f2;
+        border-radius: 20px;
+    }
+
+    .bet-panel {
+        width: 450px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    table {
+        width: 80%;
+    }
+
+    #index-body {
+        background-color: #c81d25;
+        color: black;
+    }
+
+    .not-available {
+        background-color: #1f1f1f;
+        color: white;
+        border-radius: 15px
+    }
+
+    footer {
+        color: white;
+        font-weight: 600;
+        background-color: transparent;
+    }
+
+    footer a {
+        color: white;
+    }
+
+    .go-back-button {
+        display: none;
+    }
+
+    .semi-red-button {
+        background-color: #f9dedf;
+        color: #dc3f45;
+    }
+
+    .season-header {
+        color: black;
+        opacity: 75%;
+    }
+
+    .round-header {
+        font-weight: 700;
+    }
+
+    .score-input {
+        color: black;
+        width: 55px;
+    }
+
+    .player-pick {
+        width: 100px;
+    }
+
+    table {
+        width: 100%;
+        table-layout: auto;
+        border-collapse: collapse;
+        margin-top: -25px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        width: auto;
+    }
+
+    .adnt-brand-text {
+        color: black;
+        opacity: 70%
+    }
+
+    .user-label {
+        font-weight: 600;
+    }
+
+    .red-opacity {
+        color: #dc3f45;
+    }
+
+    input[type="text"] {
+        color: black;
+    }
+
+    .sucess {
+        background-color: white;
+    }
+</style>
 
 </html>

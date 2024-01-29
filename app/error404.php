@@ -55,3 +55,5 @@ include __DIR__ . '/global/section/header.php';
 <?php
 include __DIR__ . '/global/section/footer.php';
 ?>
+
+</html>

@@ -1,6 +1,7 @@
 <footer>
     <p>&copy; 2023 Jaga Typer. Wszelkie prawa zastrzeżone.</p>
     <a href='admin_login.php'>Panel administratora</a>
+    <a href='index.php'>Strona główna</a>
 </footer>
 
 <style>
